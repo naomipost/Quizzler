@@ -23,7 +23,7 @@ export default function Navbar() {
                         Quizzler
                     </Typography>
                 </Button>
-                <Button>
+                <Button onClick={() => navigate("/create-set")}>
                     Create a set
                 </Button>
                 <Button onClick={() => navigate("/account")}>

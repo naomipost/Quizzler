@@ -18,13 +18,7 @@ const { useAppForm, withForm: withCreateStudySetForm } = createFormHook({
 
 export const createStudySetDefaultValues: StudySetDto = {
     name: '',
-    owner: {
-        id: '',
-        username: '',
-        studySets: [],
-        password: ''
-    },
-    flashcards: [],
+    flashcards: [{ id: 0, studySetId: 0, front: '', back: '', strength: 0 }],
 }
 
 export const createStudySetWithForm = withCreateStudySetForm;
@@ -39,7 +33,12 @@ export default function useCreateStudySetForm() {
         defaultValues: createStudySetDefaultValues,
         onSubmit: ({ value }) => {
             const studySet: StudySetDto = {
-                ...value,
+                name: value.name,
+                createdAt: new Date().toISOString(),
+                flashcards: value.flashcards.map(flashcard => ({
+                    ...flashcard,
+                    studySetId: 0 // Will be set by server after creation
+                }))
             }
             mutate(studySet);
         }

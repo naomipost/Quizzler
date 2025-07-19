@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Flashcard } from "../types/Flashcard";
-import type { User } from "../types/User";
 import { sendRequest } from "../utils/request";
 
 export type StudySetDto = {
+    id?: number // Optional for creation
     name: string
-    owner: User
+    createdAt?: string // Optional for creation, server will set
     flashcards: Flashcard[]
 }
 

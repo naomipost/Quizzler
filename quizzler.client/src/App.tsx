@@ -7,6 +7,7 @@ import AccountPage from './pages/AccountPage';
 import type { User } from './types/User';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import CreateStudySetPage from './pages/CreateStudySetPage';
 
 function App() {
 	const { data: studySets = [] } = useFetchAllStudySets();
@@ -17,6 +18,7 @@ function App() {
 			<Routes>
 				<Route index element={<HomePage studySets={studySets}/>} />
 				<Route path="account" element={<AccountPage user={user}/>} />
+				<Route path="create-set" element={<CreateStudySetPage />} />
 				<Route path="login" element={<LoginPage />} />
 				<Route path="signup" element={<SignupPage />} />
 			</Routes>
