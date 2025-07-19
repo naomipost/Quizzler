@@ -8,6 +8,7 @@ import type { User } from './types/User';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import CreateStudySetPage from './pages/CreateStudySetPage';
+import StudySetDetailsPage from './pages/StudySetDetailsPage';
 
 function App() {
 	const { data: studySets = [] } = useFetchAllStudySets();
@@ -21,6 +22,7 @@ function App() {
 				<Route path="create-set" element={<CreateStudySetPage />} />
 				<Route path="login" element={<LoginPage />} />
 				<Route path="signup" element={<SignupPage />} />
+				<Route path="studysets/:studySetId" element={<StudySetDetailsPage />} />
 			</Routes>
 		</PageContainer>
 	)
