@@ -1,21 +1,52 @@
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useParams } from "react-router";
-import { useFetchAllStudySets } from "../hooks/useFetchAllStudySets";
+import { useFetchStudySet } from "../hooks/useFetchStudySet";
 
 export default function StudySetDetailsPage() {
     const { studySetId } = useParams<{ studySetId: string }>();
-    const { data: studySets = [], isLoading: studySetsLoading } = useFetchAllStudySets();
-    const studySet = studySets.find(set => set.id === parseInt(studySetId ?? "0"));
-    
-    if (studySetsLoading) {
+    const { data: studySet, isLoading: studySetLoading } = useFetchStudySet(studySetId ?? "0");
+
+    if (studySetLoading) {
         return <Typography>Loading...</Typography>;
     }
 
+    if (!studySet) {
+        return <Typography>Study set not found</Typography>;
+    }
+
+    console.log("Study set details", studySet);
     return (
         <Stack>
-            <Typography>
-                Study set {studySet?.name}
+            <Typography variant="h6" fontWeight={600} component="h1" gutterBottom>
+                Study set {studySet.name}
             </Typography>
+            <Stack direction="row" gap="1rem">
+                <Button>Flashcard mode</Button>
+                <Button>Quiz mode</Button>
+                <Button>Learn mode</Button>
+            </Stack>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ marginTop: '1rem' }}>
+                <Typography variant="subtitle1" fontWeight={600}>
+                    Front
+                </Typography>
+                <Typography variant="subtitle1" fontWeight={600}>
+                    Back
+                </Typography>
+            </Stack>
+            {studySet.flashcards.map((flashcard, index) => {
+                return (
+                    <Stack key={index}
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        padding="0.25rem"
+                        gap="1rem"
+                    >
+                        <TextField disabled variant="outlined" value={flashcard.front} />
+                        <TextField disabled variant="outlined" value={flashcard.back} />
+                    </Stack>
+                );
+            })}
         </Stack>
     );
 }

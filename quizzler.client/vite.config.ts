@@ -12,7 +12,7 @@ export default defineConfig({
 			'@': path.resolve(__dirname, '.src')
 		}
 	},
-	base: "/Quizzler/",
+	base: "/Quizzler",
 	server: {
 		proxy: {
 			"/Quizzler/api/": {

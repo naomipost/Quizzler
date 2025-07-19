@@ -16,12 +16,14 @@ namespace Quizzler.Controllers
         [HttpGet("study-sets")]
         public async Task<ActionResult<List<StudySet>>> GetStudySets()
         {
-            return Ok(await _context.StudySets.ToListAsync());
+            return Ok(await _context.StudySets.Include(s => s.Flashcards).ToListAsync());
         }
         [HttpGet("study-set{id}")]
         public async Task<ActionResult<StudySet>> GetStudySet(int id)
         {
-            var studySet = await _context.StudySets.FindAsync(id);
+            var studySet = await _context.StudySets
+                .Include(s => s.Flashcards)
+                .FirstOrDefaultAsync(s => s.Id == id);
             if (studySet is null)
             {
                 return NotFound($"Study set {id} was not found");
