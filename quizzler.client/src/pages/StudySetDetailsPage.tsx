@@ -1,8 +1,9 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useFetchStudySet } from "../hooks/useFetchStudySet";
 
 export default function StudySetDetailsPage() {
+    const navigate = useNavigate();
     const { studySetId } = useParams<{ studySetId: string }>();
     const { data: studySet, isLoading: studySetLoading } = useFetchStudySet(studySetId ?? "0");
 
@@ -21,9 +22,10 @@ export default function StudySetDetailsPage() {
                 Study set {studySet.name}
             </Typography>
             <Stack direction="row" gap="1rem">
-                <Button>Flashcard mode</Button>
-                <Button>Quiz mode</Button>
-                <Button>Learn mode</Button>
+                <Button onClick={() => navigate("/flashcard-mode/" + studySetId)}>Flashcard mode</Button>
+                <Button onClick={() => navigate("/quiz-mode/" + studySetId)}>Quiz mode</Button>
+                <Button onClick={() => navigate("/learn-mode/" + studySetId)}>Learn mode</Button>
+                <Button onClick={() => navigate("/match-mode/" + studySetId)}>Match mode</Button>
             </Stack>
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ marginTop: '1rem' }}>
                 <Typography variant="subtitle1" fontWeight={600}>

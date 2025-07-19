@@ -9,6 +9,11 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import CreateStudySetPage from './pages/CreateStudySetPage';
 import StudySetDetailsPage from './pages/StudySetDetailsPage';
+import FlashcardMode from './modes/FlashcardMode';
+import QuizMode from './modes/QuizMode';
+import MatchMode from './modes/MatchMode';
+import LearnMode from './modes/LearnMode';
+import { Typography } from '@mui/material';
 
 function App() {
 	const { data: studySets = [] } = useFetchAllStudySets();
@@ -23,6 +28,11 @@ function App() {
 				<Route path="login" element={<LoginPage />} />
 				<Route path="signup" element={<SignupPage />} />
 				<Route path="studysets/:studySetId" element={<StudySetDetailsPage />} />
+				<Route path="flashcard-mode/:studySetId" element={<FlashcardMode />} />
+				<Route path="quiz-mode/:studySetId" element={<QuizMode />} />
+				<Route path="learn-mode/:studySetId" element={<LearnMode />} />
+				<Route path="match-mode/:studySetId" element={<MatchMode />} />
+				<Route path="*" element={<Typography>404 Not Found</Typography>} />
 			</Routes>
 		</PageContainer>
 	)

@@ -1,35 +1,33 @@
-import { Button, Paper, Stack, Typography } from "@mui/material";
+import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 
 export default function Navbar() {
     const navigate = useNavigate();
     return (
-        <Paper elevation={0} sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            zIndex: 999,
-            width: 'stretch',
-            margin: '1rem',
-            padding: '0.5rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-        }}
+        <AppBar 
+            position="fixed" 
+            elevation={0}
+            sx={{
+                backgroundColor: 'white',
+                borderBottom: '1px solid #e0e0e0',
+                color: 'text.primary'
+            }}
         >
-            <Stack direction="row">
-                <Button>
-                    <Typography variant="h5" fontWeight={600} onClick={() => navigate("/")}>
-                        Quizzler
-                    </Typography>
-                </Button>
-                <Button onClick={() => navigate("/create-set")}>
-                    Create a set
-                </Button>
-                <Button onClick={() => navigate("/account")}>
-                    Account
-                </Button>
-            </Stack>
-        </Paper>
+            <Toolbar sx={{ justifyContent: 'space-between' }}>
+                <Stack direction="row">
+                    <Button onClick={() => navigate("/")}>
+                        <Typography variant="h5" fontWeight={600}>
+                            Quizzler
+                        </Typography>
+                    </Button>
+                    <Button onClick={() => navigate("/create-set")}>
+                        Create a set
+                    </Button>
+                    <Button onClick={() => navigate("/account")}>
+                        Account
+                    </Button>
+                </Stack>
+            </Toolbar>
+        </AppBar>
     )
 }

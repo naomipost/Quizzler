@@ -1,4 +1,4 @@
-import { Card, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import type { StudySet } from "../types/StudySet";
 
@@ -10,16 +10,7 @@ export default function HomePage(props: Props) {
     const navigate = useNavigate();
     
     return (
-        <Card elevation={0} sx={{
-            position: "relative",
-            flex: 1,
-            width: '30rem',
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '1rem',
-            gap: '0.5rem',
-            height: 'calc(100vh - 15rem)'
-        }}>
+        <Stack sx={{ padding: '1rem', gap: '0.5rem' }}>
             <Typography>
                 Ready to learn?
             </Typography>
@@ -51,6 +42,6 @@ export default function HomePage(props: Props) {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </Card>
+        </Stack>
     )
 }
