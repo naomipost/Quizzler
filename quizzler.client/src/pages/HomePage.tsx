@@ -36,7 +36,7 @@ export default function HomePage(props: Props) {
                                     </Link>
                                 </TableCell>
                                 <TableCell>naomi</TableCell>
-                                <TableCell>June 27</TableCell>
+                                <TableCell>{new Date(set.createdAt).toLocaleDateString()}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
