@@ -1,17 +1,28 @@
+import { useNavigate, useParams } from "react-router";
+import { useFetchStudySet } from "../hooks/useFetchStudySet";
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import useCreateStudySetForm from "../hooks/useCreateStudySetForm";
-import { useNavigate } from "react-router";
+import useUpdateStudySetForm from "../hooks/useUpdateStudySetForm";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 
-export default function CreateStudySetPage() {
-    const form = useCreateStudySetForm();
+export default function EditStudySet() {
+    const { studySetId } = useParams<{ studySetId: string }>();
+    const { data: studySet, isLoading: studySetLoading } = useFetchStudySet(studySetId ?? "0");
     const navigate = useNavigate();
+    const form = useUpdateStudySetForm(studySet);
+
+    if (studySetLoading) {
+        return <Typography>Loading...</Typography>;
+    }
+    if (!studySet) {
+        return <Typography>Study set not found</Typography>;
+    }
+
     return (
         <Stack display="flex" alignItems={"flex-start"} justifyContent="flex-start" width="100%">
             <Typography variant="h6" component="h1" gutterBottom>
-                Create Study Set
+                Update Study Set {studySet.name}
             </Typography>
-            <Stack gap="1rem">
+            <Stack gap="1rem" paddingTop="0.5rem">
                 <form.Field name="name"
                     children={(field) =>
                         <TextField
@@ -24,12 +35,12 @@ export default function CreateStudySetPage() {
                             helperText={field.state.meta.errors.join(", ")}
                         />}
                 />
-                <form.Field name="flashcards">
+                {<form.Field name="flashcards">
                     {(field) => {
                         return (
                             <>
-                                {field.state.value.map((_, i) => (
-                                    <Stack key={i} direction="row" gap="1rem">
+                                {field.state.value.map((flashcard, i) => (
+                                    <Stack key={flashcard.id} direction="row" gap="1rem">
                                         <form.Field name={`flashcards[${i}].front`}
                                             children={(field) => <TextField
                                                 label="Front"
@@ -68,7 +79,7 @@ export default function CreateStudySetPage() {
                             </>
                         )
                     }}
-                </form.Field>
+                </form.Field>}
                 <form.Subscribe
                     selector={(state) => [state.canSubmit, state.isSubmitting]}
                     children={([canSubmit, isSubmitting]) => {
@@ -77,17 +88,17 @@ export default function CreateStudySetPage() {
                                 variant="contained"
                                 disabled={!canSubmit || isSubmitting}
                                 onClick={() => {
-                                    navigate("/");
+                                    navigate("/studysets/" + studySetId);
                                     form.handleSubmit();
                                     return;
                                 }}
                             >
-                                Create
+                                Update
                             </Button>
                         )
                     }}
                 />
             </Stack>
         </Stack>
-    )
+    );
 }

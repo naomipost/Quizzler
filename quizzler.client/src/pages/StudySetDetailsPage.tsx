@@ -1,4 +1,5 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
+import { IconEdit } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router";
 import { useFetchStudySet } from "../hooks/useFetchStudySet";
 
@@ -49,6 +50,18 @@ export default function StudySetDetailsPage() {
                     </Stack>
                 );
             })}
+            <Button
+                variant="contained"
+                sx={{
+                    maxWidth: '150px',
+                    fontSize: '0.75rem',
+                }}
+                onClick={() => navigate("/flashcards/edit/" + studySetId)}
+                startIcon={<IconEdit size={18} />}
+                size="small"
+            >
+                Edit Study Set
+            </Button>
         </Stack>
     );
 }

@@ -14,6 +14,7 @@ import QuizMode from './modes/QuizMode';
 import MatchMode from './modes/MatchMode';
 import LearnMode from './modes/LearnMode';
 import { Typography } from '@mui/material';
+import EditStudySet from './pages/EditStudySet';
 
 function App() {
 	const { data: studySets = [] } = useFetchAllStudySets();
@@ -33,6 +34,7 @@ function App() {
 				<Route path="learn-mode/:studySetId" element={<LearnMode />} />
 				<Route path="match-mode/:studySetId" element={<MatchMode />} />
 				<Route path="*" element={<Typography>404 Not Found</Typography>} />
+				<Route path="flashcards/edit/:studySetId" element={<EditStudySet />} />
 			</Routes>
 		</PageContainer>
 	)
