@@ -23,9 +23,9 @@ export default function StudySetDetailsPage() {
             </Typography>
             <Stack direction="row" gap="1rem">
                 <Button onClick={() => navigate("/flashcard-mode/" + studySetId)}>Flashcard mode</Button>
-                <Button onClick={() => navigate("/quiz-mode/" + studySetId)}>Quiz mode</Button>
                 <Button onClick={() => navigate("/learn-mode/" + studySetId)}>Learn mode</Button>
                 <Button onClick={() => navigate("/match-mode/" + studySetId)}>Match mode</Button>
+                <Button onClick={() => navigate("/quiz-mode/" + studySetId)}>Quiz mode</Button>
             </Stack>
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ marginTop: '1rem' }}>
                 <Typography variant="subtitle1" fontWeight={600}>
