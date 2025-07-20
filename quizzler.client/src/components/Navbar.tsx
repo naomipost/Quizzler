@@ -1,8 +1,11 @@
 import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
     const navigate = useNavigate();
+    const { user } = useAuth();
+    
     return (
         <AppBar 
             position="fixed" 
@@ -20,12 +23,16 @@ export default function Navbar() {
                             Quizzler
                         </Typography>
                     </Button>
-                    <Button onClick={() => navigate("/create-set")}>
-                        Create a set
-                    </Button>
-                    <Button onClick={() => navigate("/account")}>
-                        Account
-                    </Button>
+                    {user && (
+                        <Button onClick={() => navigate("/create-set")}>
+                            Create a set
+                        </Button>
+                    )}
+                    {user && (
+                        <Button onClick={() => navigate("/account")}>
+                            Account
+                        </Button>
+                    )}
                 </Stack>
             </Toolbar>
         </AppBar>

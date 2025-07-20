@@ -1,30 +1,55 @@
-import { Route, Routes } from 'react-router';
-import './App.css'
-import PageContainer from './pages/PageContainer'
-import HomePage from './pages/HomePage';
-import { useFetchAllStudySets } from './hooks/useFetchAllStudySets';
-import AccountPage from './pages/AccountPage';
-import type { User } from './types/User';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import CreateStudySetPage from './pages/CreateStudySetPage';
-import StudySetDetailsPage from './pages/StudySetDetailsPage';
-import FlashcardMode from './modes/FlashcardMode';
-import QuizMode from './modes/QuizMode';
-import MatchMode from './modes/MatchMode';
-import LearnMode from './modes/LearnMode';
 import { Typography } from '@mui/material';
+import { Route, Routes } from 'react-router';
+import './App.css';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { useFetchAllStudySets } from './hooks/useFetchAllStudySets';
+import { useFetchCurrentUser } from './hooks/useFetchCurrentUser';
+import FlashcardMode from './modes/FlashcardMode';
+import LearnMode from './modes/LearnMode';
+import MatchMode from './modes/MatchMode';
+import QuizMode from './modes/QuizMode';
+import AccountPage from './pages/AccountPage';
+import CreateStudySetPage from './pages/CreateStudySetPage';
 import EditStudySet from './pages/EditStudySet';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import PageContainer from './pages/PageContainer';
+import SignupPage from './pages/SignupPage';
+import StudySetDetailsPage from './pages/StudySetDetailsPage';
 
 function App() {
+	return (
+		<AuthProvider>
+			<AppContent />
+		</AuthProvider>
+	);
+}
+
+function AppContent() {
+	const { user } = useAuth();
 	const { data: studySets = [] } = useFetchAllStudySets();
-	// const { data: user } = useFetchuser();
-	const user: User = { username: "naomi", id: '0', password: "123", studySets: [] };
+	const { data: userFromQuery } = useFetchCurrentUser();
+	const dummyUser = { username: "guest", id: 0, password: "", studySets: [] };
+
+	// If no user is logged in, only show login and signup pages
+	if (!user) {
+		return (
+			<PageContainer>
+				<Routes>
+					<Route path="/login" element={<LoginPage />} />
+					<Route path="/signup" element={<SignupPage />} />
+					<Route path="*" element={<LoginPage />} /> {/* Redirect all other routes to login */}
+				</Routes>
+			</PageContainer>
+		);
+	}
+
+	// User is logged in, show all protected routes
 	return (
 		<PageContainer>
 			<Routes>
-				<Route index element={<HomePage studySets={studySets}/>} />
-				<Route path="account" element={<AccountPage user={user}/>} />
+				<Route index element={<HomePage studySets={studySets} />} />
+				<Route path="account" element={<AccountPage user={userFromQuery ?? dummyUser} />} />
 				<Route path="create-set" element={<CreateStudySetPage />} />
 				<Route path="login" element={<LoginPage />} />
 				<Route path="signup" element={<SignupPage />} />
@@ -37,7 +62,7 @@ function App() {
 				<Route path="flashcards/edit/:studySetId" element={<EditStudySet />} />
 			</Routes>
 		</PageContainer>
-	)
+	);
 }
 
 export default App

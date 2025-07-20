@@ -1,7 +1,7 @@
 import type { StudySet } from "./StudySet"
 
 export type User = {
-    id: string
+    id: number
     username: string
     studySets: StudySet[]
     password: string

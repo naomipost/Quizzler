@@ -1,30 +1,32 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 interface AuthContextType {
-  user: { username: string; email: string } | null;
-  login: (userData: { username: string; email: string }) => void;
+  user: { id: number; username: string; email: string } | null;
+  login: (userData: { id: number; username: string; email: string }) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<{ username: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ id: number; username: string; email: string } | null>(null);
 
-  const login = (userData: { username: string; email: string }) => {
+  const login = (userData: { id: number; username: string; email: string }) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('user', JSON.stringify(userData)); // Store user in localStorage
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
+    localStorage.removeItem('user'); // Remove user from localStorage
   };
 
-  // Initialize from localStorage on refresh
+  // Initialize user from localStorage on refresh
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); // Restore user from localStorage
+    }
   }, []);
 
   return (

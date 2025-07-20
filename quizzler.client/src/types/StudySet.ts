@@ -1,10 +1,10 @@
 import type { Flashcard } from "./Flashcard"
-import type { User } from "./User"
 
+//TODO: fix ef core issue to add owner instead of userId
 export type StudySet = {
     id: number
     name: string
-    owner: User
+    userId: number
     createdAt: string
     flashcards: Flashcard[]
 }

@@ -33,7 +33,12 @@ namespace Quizzler.Controllers
 
             return Ok(user);
         }
-
+        [HttpGet("all-users")]
+        public async Task<ActionResult<List<User>>> GetAllUsers()
+        {
+            var users = await _context.Users.ToListAsync();
+            return Ok(users);
+        }
         [HttpPost("sign-up")]
         public async Task<ActionResult<User>> SignUp([FromBody] UserSignUpDto signUpDto)
         {
@@ -66,7 +71,14 @@ namespace Quizzler.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            // Return the created user with ID
+            return Ok(new
+            {
+                user.Id,
+                user.Username,
+                user.Email
+                // Exclude password!
+            });
         }
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login([FromBody] LoginDto request)
@@ -95,6 +107,7 @@ namespace Quizzler.Controllers
             // 4. Return user without sensitive data
             return Ok(new
             {
+                user.Id,
                 user.Username,
                 user.Email
                 // Exclude password!

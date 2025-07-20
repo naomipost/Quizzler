@@ -1,6 +1,7 @@
 import { Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import type { StudySet } from "../types/StudySet";
+import { useFetchAllUsers } from "../hooks/useFetchAllUsers";
 
 type Props = {
     studySets: StudySet[]
@@ -8,7 +9,12 @@ type Props = {
 
 export default function HomePage(props: Props) {
     const navigate = useNavigate();
-    
+    const { data: users = [], isLoading: isLoadingUsers } = useFetchAllUsers();
+
+    if (isLoadingUsers) {
+        return <Typography>Loading users...</Typography>;
+    }
+
     return (
         <Stack sx={{ padding: '1rem', gap: '0.5rem' }}>
             <Typography>
@@ -35,7 +41,8 @@ export default function HomePage(props: Props) {
                                         {set.name}
                                     </Link>
                                 </TableCell>
-                                <TableCell>naomi</TableCell>
+                                <TableCell>{users.find(user => user.id === set.userId)?.username}</TableCell>
+                                {/** TODO: date in local time instead of UTC */}
                                 <TableCell>{new Date(set.createdAt).toLocaleDateString()}</TableCell>
                             </TableRow>
                         ))}
