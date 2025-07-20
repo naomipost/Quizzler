@@ -1,21 +1,58 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Tooltip, Typography } from "@mui/material";
+import { IconArrowNarrowLeft, IconArrowNarrowRight, IconArrowsShuffle, IconRefresh } from "@tabler/icons-react";
 import { useParams } from "react-router";
+import Flashcard from "../components/Flashcard";
 import { useFetchStudySet } from "../hooks/useFetchStudySet";
+import { useState } from "react";
 
+//TODO: add shuffle functionality instead of randomizing once on
+//      clicking the shuffle icon and the next button still going to
+//      the next card in the unshuffled array
 export default function FlashcardMode() {
     const { studySetId } = useParams<{ studySetId: string }>();
     const { data: studySet, isLoading: studySetLoading } = useFetchStudySet(studySetId ?? "0");
+    const [currentCardIndex, setCurrentCardIndex] = useState(0);
     if (studySetLoading) {
         return <Typography>Loading...</Typography>;
     }
-    if(!studySet) {
+    if (!studySet) {
         return <Typography>Study set not found</Typography>;
     }
     return (
-        <Stack>
+        <Stack
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="flex-start"
+            gap="0.5rem"
+        >
             <Typography variant="h6" fontWeight={600} component="h1" gutterBottom>
                 Flashcard Mode for {studySet.name}
             </Typography>
+            <Flashcard flashcard={studySet.flashcards[currentCardIndex]} />
+            <Stack direction="row" justifyContent="space-between" width="100%" gap="0.5rem">
+                <Tooltip title="Start from beginning" placement="top">
+                    <IconRefresh
+                        onClick={() => setCurrentCardIndex(0)}
+                    />
+                </Tooltip>
+                <Tooltip title="Shuffle flashcards" placement="top">
+                    <IconArrowsShuffle
+                        onClick={() => setCurrentCardIndex(Math.floor(Math.random() * studySet.flashcards.length))}
+                    />
+                </Tooltip>
+                <Stack direction="row" justifyContent="right" width="100%">
+                    <Tooltip title="Previous flashcard" placement="top">
+                        <IconArrowNarrowLeft
+                            onClick={() => setCurrentCardIndex((prev) => Math.max(prev - 1, 0))}
+                        />
+                    </Tooltip>
+                    <Tooltip title="Next flashcard" placement="top">
+                        <IconArrowNarrowRight
+                            onClick={() => setCurrentCardIndex((prev) => Math.min(prev + 1, studySet.flashcards.length - 1))}
+                        />
+                    </Tooltip>
+                </Stack>
+            </Stack>
         </Stack>
     );
 }
