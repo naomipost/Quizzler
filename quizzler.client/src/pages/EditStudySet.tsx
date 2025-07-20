@@ -40,7 +40,7 @@ export default function EditStudySet() {
                         return (
                             <>
                                 {field.state.value.map((flashcard, i) => (
-                                    <Stack key={flashcard.id} direction="row" gap="1rem">
+                                    <Stack key={flashcard.id || `new-${i}`} direction="row" gap="1rem">
                                         <form.Field name={`flashcards[${i}].front`}
                                             children={(field) => <TextField
                                                 label="Front"
@@ -71,7 +71,7 @@ export default function EditStudySet() {
                                     </Stack>
                                 ))}
                                 <Button variant="outlined"
-                                    onClick={() => field.pushValue({ id: 0, studySetId: 0, front: '', back: '', strength: 0 })}
+                                    onClick={() => field.pushValue({ id: 0, studySetId: studySet?.id || 0, front: '', back: '', strength: 0 })}
                                     startIcon={<IconPlus size={18} />}
                                 >
                                     Add flashcard

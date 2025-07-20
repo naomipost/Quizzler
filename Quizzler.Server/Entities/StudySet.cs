@@ -8,6 +8,7 @@ namespace Quizzler.Server.Entities
     {
         public int Id { get; set; }
         public required string Name { get; set; }
+        public required int UserId { get; set; }
         public required DateTime CreatedAt { get; set; }
         public List<Flashcard> Flashcards { get; set; } = [];
     }

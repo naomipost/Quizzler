@@ -39,8 +39,11 @@ export default function useUpdateStudySetForm(studySet: UpdateStudySetDto | unde
                 id: studySet?.id ?? 0,
                 name: value.name,
                 flashcards: value.flashcards.map((flashcard) => ({
-                    ...flashcard,
-                    studySetId: studySet?.id ?? 0
+                    id: flashcard.id || 0, // Ensure new flashcards have id: 0
+                    studySetId: studySet?.id ?? 0,
+                    front: flashcard.front,
+                    back: flashcard.back,
+                    strength: flashcard.strength
                 }))
             };
             mutate(updatedStudySet);
