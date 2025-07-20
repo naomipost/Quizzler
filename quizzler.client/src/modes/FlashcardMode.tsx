@@ -1,6 +1,6 @@
-import { Stack, Tooltip, Typography } from "@mui/material";
-import { IconArrowNarrowLeft, IconArrowNarrowRight, IconArrowsShuffle, IconRefresh } from "@tabler/icons-react";
-import { useParams } from "react-router";
+import { Button, Stack, Tooltip, Typography } from "@mui/material";
+import { IconArrowBack, IconArrowNarrowLeft, IconArrowNarrowRight, IconArrowsShuffle, IconRefresh } from "@tabler/icons-react";
+import { useNavigate, useParams } from "react-router";
 import Flashcard from "../components/Flashcard";
 import { useFetchStudySet } from "../hooks/useFetchStudySet";
 import { useState } from "react";
@@ -12,6 +12,7 @@ export default function FlashcardMode() {
     const { studySetId } = useParams<{ studySetId: string }>();
     const { data: studySet, isLoading: studySetLoading } = useFetchStudySet(studySetId ?? "0");
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
+    const navigate = useNavigate();
     if (studySetLoading) {
         return <Typography>Loading...</Typography>;
     }
@@ -25,6 +26,17 @@ export default function FlashcardMode() {
             justifyContent="flex-start"
             gap="0.5rem"
         >
+            <Button
+                variant="contained"
+                onClick={() => navigate("/studysets/" + studySetId)}
+                startIcon={<IconArrowBack size={18}/>}
+                size="small"
+                sx={{
+                    fontSize: "0.75rem",
+                }}
+            >
+                Back to study set
+            </Button>
             <Typography variant="h6" fontWeight={600} component="h1" gutterBottom>
                 Flashcard Mode for {studySet.name}
             </Typography>
