@@ -60,6 +60,9 @@ appsettins.development.json
 *.dll
 *.exe
 *.pdb
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
+*.FileListAbsolute.txt
 
 # Node.js (for React frontend)
 node_modules/
