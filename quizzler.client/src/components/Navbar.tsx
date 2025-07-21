@@ -1,4 +1,4 @@
-import { AppBar, Button, IconButton, Popover, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from "@mui/material";
 import { IconWorld } from "@tabler/icons-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,8 +13,8 @@ export default function Navbar() {
     const { i18n, t } = useTranslation();
 
     return (
-        <AppBar 
-            position="fixed" 
+        <AppBar
+            position="fixed"
             elevation={0}
             sx={{
                 backgroundColor: 'white',
@@ -44,7 +44,7 @@ export default function Navbar() {
                     <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
                         <IconWorld />
                     </IconButton>
-                    <Popover
+                    <Menu
                         open={open}
                         anchorEl={anchorEl}
                         onClose={() => setAnchorEl(null)}
@@ -53,27 +53,25 @@ export default function Navbar() {
                             horizontal: 'right',
                         }}
                     >
-                        <Stack direction="column" sx={{ padding: 2 }}>
-                            <Button onClick={() => {
-                                i18n.changeLanguage("en");
-                                setAnchorEl(null);
-                            }}>
-                                English
-                            </Button>
-                            <Button onClick={() => {
-                                i18n.changeLanguage("es-NI");
-                                setAnchorEl(null);
-                            }}>
-                                Español
-                            </Button>
-                            <Button onClick={() => {
-                                i18n.changeLanguage("pt-BR");
-                                setAnchorEl(null);
-                            }}>
-                                Português
-                            </Button>
-                        </Stack>
-                    </Popover>
+                        <MenuItem onClick={() => {
+                            i18n.changeLanguage("en-US");
+                            setAnchorEl(null);
+                        }}>
+                            English
+                        </MenuItem>
+                        <MenuItem onClick={() => {
+                            i18n.changeLanguage("es-NI");
+                            setAnchorEl(null);
+                        }}>
+                            Español
+                        </MenuItem>
+                        <MenuItem onClick={() => {
+                            i18n.changeLanguage("pt-BR");
+                            setAnchorEl(null);
+                        }}>
+                            Português
+                        </MenuItem>
+                    </Menu>
                 </Stack>
             </Toolbar>
         </AppBar>
