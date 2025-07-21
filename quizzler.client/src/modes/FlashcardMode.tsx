@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import Flashcard from "../components/Flashcard";
 import { useFetchStudySet } from "../hooks/useFetchStudySet";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 //TODO: add shuffle functionality instead of randomizing once on
 //      clicking the shuffle icon and the next button still going to
@@ -13,11 +14,12 @@ export default function FlashcardMode() {
     const { data: studySet, isLoading: studySetLoading } = useFetchStudySet(studySetId ?? "0");
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const navigate = useNavigate();
+    const { t } = useTranslation();
     if (studySetLoading) {
-        return <Typography>Loading...</Typography>;
+        return <Typography>{t("loading")}</Typography>;
     }
     if (!studySet) {
-        return <Typography>Study set not found</Typography>;
+        return <Typography>{t("study_set_not_found")}</Typography>;
     }
     return (
         <Stack
@@ -35,30 +37,30 @@ export default function FlashcardMode() {
                     fontSize: "0.75rem",
                 }}
             >
-                Back to study set
+                {t("back_to_study_set")}
             </Button>
             <Typography variant="h6" fontWeight={600} component="h1" gutterBottom>
-                Flashcard Mode for {studySet.name}
+                {t("flashcard_mode")} {t("for")} {studySet.name}
             </Typography>
             <Flashcard flashcard={studySet.flashcards[currentCardIndex]} />
             <Stack direction="row" justifyContent="space-between" width="100%" gap="0.5rem">
-                <Tooltip title="Start from beginning" placement="top">
+                <Tooltip title={t("start_from_beginning")} placement="top">
                     <IconRefresh
                         onClick={() => setCurrentCardIndex(0)}
                     />
                 </Tooltip>
-                <Tooltip title="Shuffle flashcards" placement="top">
+                <Tooltip title={t("shuffle_flashcards")} placement="top">
                     <IconArrowsShuffle
                         onClick={() => setCurrentCardIndex(Math.floor(Math.random() * studySet.flashcards.length))}
                     />
                 </Tooltip>
                 <Stack direction="row" justifyContent="right" width="100%">
-                    <Tooltip title="Previous flashcard" placement="top">
+                    <Tooltip title={t("previous_flashcard")} placement="top">
                         <IconArrowNarrowLeft
                             onClick={() => setCurrentCardIndex((prev) => Math.max(prev - 1, 0))}
                         />
                     </Tooltip>
-                    <Tooltip title="Next flashcard" placement="top">
+                    <Tooltip title={t("next_flashcard")} placement="top">
                         <IconArrowNarrowRight
                             onClick={() => setCurrentCardIndex((prev) => Math.min(prev + 1, studySet.flashcards.length - 1))}
                         />

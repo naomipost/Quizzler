@@ -44,7 +44,7 @@ const AppTheme = (colorMode: 'light' | 'dark') =>
             MuiBackdrop: {
                 styleOverrides: {
                     root: {
-                        backdropFilter: "blur(8px)", //apply blur effect to modal backdrop
+                        // backdropFilter: "blur(8px)", //apply blur effect to modal backdrop
                         backgroundColor: "rgba(0, 0, 0, 0.5)", //semi-transparent black for the backdrop
                     },
                 },

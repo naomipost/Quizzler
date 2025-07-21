@@ -1,21 +1,23 @@
 import { Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { useNavigate } from 'react-router';
 import useSignupForm from "../hooks/useSignupForm";
+import { useTranslation } from "react-i18next";
 
 export default function SignupPage() {
     const navigate = useNavigate();
-    const form = useSignupForm()
+    const form = useSignupForm();
+    const { t } = useTranslation();
     return (
         <Stack gap={1}>
             <Typography>
-                Sign up
+                {t("sign_up")}
             </Typography>
             <form.Field name="username"
-                validators={{ onBlur: ({value}) => value === '' ? "Required" : undefined}}
+                validators={{ onBlur: ({value}) => value === '' ? t("required") : undefined}}
                 children={(field) => {
                     return (
                         <TextField 
-                            label={field.name} 
+                            label={t("username")} 
                             error={!field.state.meta.isValid}
                             helperText={field.state.meta.errors.join()}
                             onChange={(e) => field.handleChange(e.target.value)}
@@ -25,11 +27,11 @@ export default function SignupPage() {
                 }}
             />
             <form.Field name="email"
-                validators={{ onBlur: ({value}) => value === '' ? "Required" : undefined}}
+                validators={{ onBlur: ({value}) => value === '' ? t("required") : undefined}}
                 children={(field) => {
                     return (
                         <TextField 
-                            label={field.name} 
+                            label={t("email")} 
                             error={!field.state.meta.isValid}
                             helperText={field.state.meta.errors.join()}
                             onChange={(e) => field.handleChange(e.target.value)}
@@ -39,11 +41,11 @@ export default function SignupPage() {
                 }}
             />
             <form.Field name="password"
-                validators={{ onBlur: ({value}) => value === '' ? "Required" : undefined}}
+                validators={{ onBlur: ({value}) => value === '' ? t("required") : undefined}}
                 children={(field) => {
                     return (
                         <TextField 
-                            label={field.name} 
+                            label={t("password")} 
                             error={!field.state.meta.isValid}
                             helperText={field.state.meta.errors.join()}
                             onChange={(e) => field.handleChange(e.target.value)}
@@ -53,13 +55,13 @@ export default function SignupPage() {
                 }}
             />
             <Typography variant="body2">
-                Already have an account? {' '}
+                {t("already_have_an_account")} {' '}
                 <Link
                     component="button"
                     onClick={() => navigate('/login')}
                     underline="hover"
                 >
-                    Login
+                    {t("log_in")}
                 </Link>
             </Typography>
             <form.Subscribe
@@ -74,7 +76,7 @@ export default function SignupPage() {
                         }
                     }}
                     variant="contained">
-                        Sign up
+                        {t("sign_up")}
                     </Button>)
                 } />
         </Stack>

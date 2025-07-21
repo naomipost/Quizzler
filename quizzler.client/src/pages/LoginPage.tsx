@@ -1,21 +1,23 @@
 import { Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { useNavigate } from 'react-router';
 import useLoginForm from "../hooks/useLoginForm";
+import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
     const navigate = useNavigate();
     const form = useLoginForm();
+    const { t } = useTranslation();
     return (
         <Stack gap={1}>
             <Typography>
-                Login
+                {t("log_in")}
             </Typography>
             <form.Field name="username"
-                validators={{ onBlur: ({value}) => value === '' ? "Required" : undefined}}
+                validators={{ onBlur: ({value}) => value === '' ? t("required") : undefined}}
                 children={(field) => {
                     return (
                         <TextField 
-                            label={field.name} 
+                            label={t("username")} 
                             error={!field.state.meta.isValid}
                             helperText={field.state.meta.errors.join()}
                             onChange={(e) => field.handleChange(e.target.value)}
@@ -25,11 +27,11 @@ export default function LoginPage() {
                 }}
             />
             <form.Field name="password"
-                validators={{ onBlur: ({value}) => value === '' ? "Required" : undefined}}
+                validators={{ onBlur: ({value}) => value === '' ? t("required") : undefined}}
                 children={(field) => {
                     return (
                         <TextField 
-                            label={field.name} 
+                            label={t("password")} 
                             error={!field.state.meta.isValid}
                             helperText={field.state.meta.errors.join()}
                             onChange={(e) => field.handleChange(e.target.value)}
@@ -39,13 +41,13 @@ export default function LoginPage() {
                 }}
             />
             <Typography variant="body2">
-                Don't have an account? {' '}
+                {t("dont_have_an_account")} {' '}
                 <Link
                     component="button"
                     onClick={() => navigate('/signup')}
                     underline="hover"
                 >
-                    Sign up
+                    {t("sign_up")}
                 </Link>
             </Typography>
             <form.Subscribe
@@ -60,7 +62,7 @@ export default function LoginPage() {
                         }
                     }}
                     variant="contained">
-                        Log in
+                        {t("log_in")}
                     </Button>)
                 } />
         </Stack>
