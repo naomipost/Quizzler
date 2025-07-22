@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Quizzler.Entities;
 using Quizzler.Server.Entities;
+using Quizzler.Server.Services;
 
 namespace Quizzler.Controllers
 {
@@ -10,14 +11,16 @@ namespace Quizzler.Controllers
     public class UserController : ControllerBase
     {
         private readonly QuizzlerContext _context;
+        private readonly IPasswordService _passwordService;
 
-        public UserController(QuizzlerContext context)
+        public UserController(QuizzlerContext context, IPasswordService passwordService)
         {
             _context = context;
+            _passwordService = passwordService;
         }
 
         [HttpGet("whoami")]
-        public async Task<ActionResult<User>> Whoami(string username)
+        public async Task<ActionResult<UserResponseDto>> Whoami(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
             {
@@ -31,18 +34,20 @@ namespace Quizzler.Controllers
                 return NotFound($"User with username {username} not found");
             }
 
-            return Ok(user);
+            return Ok(user.ToUserResponseDto());
         }
         [HttpGet("all-users")]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()
         {
             var users = await _context.Users.ToListAsync();
-            return Ok(users);
+            
+            var safeUsers = users.Select(user => user.ToUserResponseDto()).ToList();
+            
+            return Ok(safeUsers);
         }
         [HttpPost("sign-up")]
         public async Task<ActionResult<User>> SignUp([FromBody] UserSignUpDto signUpDto)
         {
-            // Validate input
             if (string.IsNullOrWhiteSpace(signUpDto.Username))
             {
                 return BadRequest("Username is required");
@@ -53,43 +58,27 @@ namespace Quizzler.Controllers
                 return BadRequest("Password is required");
             }
 
-            // Check if user already exists
             if (await _context.Users.AnyAsync(u => u.Username == signUpDto.Username))
             {
                 return Conflict("Username already exists");
             }
 
-            // Create new user (add password hashing in production!)
-            var newUserDto = new UserSignUpDto(
-                signUpDto.Username,
-                signUpDto.Password, // Hash this in production!
-                signUpDto.Email
-            );
-
-            var user = newUserDto.ToUser();
+            // Create new user with hashed password
+            var user = signUpDto.ToUser(_passwordService);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Return the created user with ID
-            return Ok(new
-            {
-                user.Id,
-                user.Username,
-                user.Email
-                // Exclude password!
-            });
+            return Ok(user.ToUserResponseDto());
         }
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login([FromBody] LoginDto request)
         {
-            // 1. Basic validation
             if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
             {
                 return BadRequest("Username and password are required");
             }
 
-            // 2. Find user
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Username == request.Username);
 
@@ -98,20 +87,13 @@ namespace Quizzler.Controllers
                 return Unauthorized("Invalid credentials");
             }
 
-            // 3. Verify password (plain text comparison - NOT for production!)
-            if (request.Password != user.PasswordHash) // Replace with hashing later
+            // Verify password using secure hash comparison
+            if (!_passwordService.VerifyPassword(request.Password, user.PasswordHash))
             {
                 return Unauthorized("Invalid credentials");
             }
 
-            // 4. Return user without sensitive data
-            return Ok(new
-            {
-                user.Id,
-                user.Username,
-                user.Email
-                // Exclude password!
-            });
+            return Ok(user.ToUserResponseDto());
         }
     }
 }

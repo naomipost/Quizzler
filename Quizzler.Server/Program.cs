@@ -1,16 +1,25 @@
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure; 
 using Microsoft.EntityFrameworkCore;
 using Quizzler.Entities;
+using Quizzler.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add the secrets configuration file
+builder.Configuration.AddJsonFile("appsettings.Secrets.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+// Get connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<QuizzlerContext>(options => options.UseMySql(
-    builder.Configuration.GetConnectionString("DefaultConnection"),
-    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    connectionString,
+    ServerVersion.AutoDetect(connectionString)
 ));
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
