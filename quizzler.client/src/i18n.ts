@@ -41,6 +41,8 @@ const resources = {
             "dont_have_an_account": "Don't have an account?",
             "already_have_an_account": "Already have an account?",
             "required": "Required",
+            "select_correct_answer": "Select the correct answer",
+            "continue": "Continue",
         }
     },
     "es-NI": {
@@ -81,6 +83,8 @@ const resources = {
             "dont_have_an_account": "¿No tienes una cuenta?",
             "already_have_an_account": "¿Ya tienes una cuenta?",
             "required": "Requerido",
+            "select_correct_answer": "Selecciona la respuesta correcta",
+            "continue": "Continuar",
         }
     },
     "pt-BR": {
@@ -121,6 +125,8 @@ const resources = {
             "dont_have_an_account": "Não tem uma conta?",
             "already_have_an_account": "Já tem uma conta?",
             "required": "Obrigatório",
+            "select_correct_answer": "Selecione a resposta correta",
+            "continue": "Continuar",
         }
     }
 };
