@@ -9,11 +9,13 @@ type Props = {
     flashcard: Flashcard;
     studySet: StudySet;
     onContinue: () => void;
+    onUpdateStrength: (flashcardId: number, isCorrect: boolean) => void;
 }
 
 export default function MultipleChoiceLearnCard(props: Props) {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [selectedAnswerCorrect, setSelectedAnswerCorrect] = useState<boolean | null>(null);
+    const [isCorrect, setIsCorrect] = useState<boolean>(false);
     const { t } = useTranslation();
 
     // Reset state when flashcard changes from parent
@@ -32,12 +34,8 @@ export default function MultipleChoiceLearnCard(props: Props) {
 
     const handleOptionSelect = (option: string) => {
         setSelectedOption(option);
-        setSelectedAnswerCorrect(option === props.flashcard.back);
-        if (option === props.flashcard.back) {
-            props.flashcard.strength++;
-        } else {
-            props.flashcard.strength = Math.max(0, props.flashcard.strength - 1);
-        }
+        setIsCorrect(option === props.flashcard.back);
+        setSelectedAnswerCorrect(isCorrect);
     };
 
     // Memoize button colors to prevent excessive recalculation
@@ -113,7 +111,7 @@ export default function MultipleChoiceLearnCard(props: Props) {
                 </Stack>
             </Stack>
             {selectedOption && (
-                <Button 
+                <Button
                     variant="contained"
                     sx={{
                         position: "absolute",
@@ -123,6 +121,7 @@ export default function MultipleChoiceLearnCard(props: Props) {
                     onClick={() => {
                         setSelectedOption(null);
                         setSelectedAnswerCorrect(null);
+                        props.onUpdateStrength(props.flashcard.id, isCorrect);
                         props.onContinue();
                     }}
                 >

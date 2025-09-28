@@ -101,5 +101,23 @@ namespace Quizzler.Controllers
 
             return Ok(existingStudySet);
         }
+        [HttpPut("reset-all-strength/{studySetId}")]
+        public async Task<ActionResult> ResetAllFlashcardsStrength(int studySetId)
+        {
+            var studySet = await _context.StudySets
+                .Include(s => s.Flashcards)
+                .FirstOrDefaultAsync(s => s.Id == studySetId);
+
+            if (studySet is null)
+            {
+                return NotFound($"Study set {studySetId} was not found");
+            }
+
+            studySet.Flashcards.ForEach(f => f.Strength = 0);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

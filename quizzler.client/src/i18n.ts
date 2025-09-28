@@ -43,6 +43,9 @@ const resources = {
             "required": "Required",
             "select_correct_answer": "Select the correct answer",
             "continue": "Continue",
+            "write_your_answer": "Write your answer here",
+            "submit": "Submit",
+            "incorrect_answer": "The correct answer is '{{answer}}'.",
         }
     },
     "es-NI": {
@@ -85,6 +88,9 @@ const resources = {
             "required": "Requerido",
             "select_correct_answer": "Selecciona la respuesta correcta",
             "continue": "Continuar",
+            "write_your_answer": "Escribe tu respuesta aquí",
+            "submit": "Enviar",
+            "incorrect_answer": "La respuesta correcta es '{{answer}}'.",
         }
     },
     "pt-BR": {
@@ -127,6 +133,9 @@ const resources = {
             "required": "Obrigatório",
             "select_correct_answer": "Selecione a resposta correta",
             "continue": "Continuar",
+            "write_your_answer": "Escreva sua resposta aqui",
+            "submit": "Enviar",
+            "incorrect_answer": "A resposta correta é '{{answer}}'.",
         }
     }
 };

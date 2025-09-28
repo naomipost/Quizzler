@@ -14,7 +14,7 @@ function buildRequest<T>(requestOptions: RequestOptions<T>): Request {
     return new Request(requestOptions.url, {
         method: requestOptions.method,
         headers: requestHeaders,
-        body: requestOptions.body ? JSON.stringify(requestOptions.body) : undefined,
+        body: requestOptions.body !== undefined ? JSON.stringify(requestOptions.body) : undefined,
         credentials: "include",
         mode: "cors",
     });

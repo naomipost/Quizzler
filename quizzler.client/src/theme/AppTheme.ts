@@ -18,9 +18,15 @@ const AppTheme = (colorMode: 'light' | 'dark') =>
                 primary: colorMode === "light" ? "rgb(19, 1, 27)" : "rgb(245, 223, 251)",
                 secondary: colorMode === "light" ? "rgb(77, 71, 79)" : "rgb(198, 187, 199)",
             },
+            error: {
+                main: colorMode === "light" ? "#d32f2f" : "#ef5350",
+            },
+            success: {
+                main: colorMode === "light" ? "#2e7d32" : "#66bb6a",
+            },
         },
         shape: {
-            borderRadius: 12, // slightly rounded corrners for a more modern look
+            borderRadius: 8, // slightly rounded corrners for a more modern look
         },
         components: {
             MuiPaper: {

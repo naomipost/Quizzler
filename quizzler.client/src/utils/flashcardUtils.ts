@@ -2,6 +2,9 @@ export function generateMultipleChoiceOptions(
     correctAnswer: string, 
     allAnswers: string[], 
     numOptions: number = 4): string[] {
+    if (allAnswers.length < 4) {
+        numOptions = allAnswers.length;
+    }
     const options = new Set<string>();
     options.add(correctAnswer);
     while (options.size < numOptions) {
