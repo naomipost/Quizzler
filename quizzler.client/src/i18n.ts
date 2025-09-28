@@ -5,7 +5,6 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
     en: {
         translation: {
-            // Add your English translations here
             "ready_to_learn": "Ready to learn?",
             "set_name": "Set name",
             "set_owner": "Set owner",
@@ -46,11 +45,13 @@ const resources = {
             "write_your_answer": "Write your answer here",
             "submit": "Submit",
             "incorrect_answer": "The correct answer is '{{answer}}'.",
+            "learn_mode_complete": "Learn mode complete!",
+            "congrats_complete": "Congrats! 🎉 You have completed learn mode for {{setName}}.",
+            "study_again": "Study again",
         }
     },
     "es-NI": {
         translation: {
-            // Add your Spanish translations here
             "ready_to_learn": "¿Listo para aprender?",
             "set_name": "Nombre de la lista",
             "set_owner": "Propietario de la lista",
@@ -91,11 +92,13 @@ const resources = {
             "write_your_answer": "Escribe tu respuesta aquí",
             "submit": "Enviar",
             "incorrect_answer": "La respuesta correcta es '{{answer}}'.",
+            "learn_mode_complete": "¡Modo de aprendizaje completado!",
+            "congrats_complete": "¡Felicidades! 🎉 Has completado el modo de aprendizaje para {{setName}}.",
+            "study_again": "Estudiar de nuevo",
         }
     },
     "pt-BR": {
         translation: {
-            // Add your Portuguese translations here
             "ready_to_learn": "Pronto para aprender?",
             "set_name": "Nome da lista",
             "set_owner": "Proprietário da lista",
@@ -136,6 +139,9 @@ const resources = {
             "write_your_answer": "Escreva sua resposta aqui",
             "submit": "Enviar",
             "incorrect_answer": "A resposta correta é '{{answer}}'.",
+            "learn_mode_complete": "Modo de aprendizado concluído!",
+            "congrats_complete": "Parabéns! 🎉 Você completou o modo de aprendizado para {{setName}}.",
+            "study_again": "Estudar novamente",
         }
     }
 };
